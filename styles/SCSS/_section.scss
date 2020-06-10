@@ -1,0 +1,84 @@
+.board {
+	background: $pine;
+}
+.foundations {
+	@include flexRow(flex-start);
+	.foundation {
+		margin: 10px;
+		height: 89px;
+		width: 64px;
+		border: 2px solid white;
+	}
+}
+
+.tableau {
+	width: 100vw;
+    height: 100vh;
+    margin-left: 168px;
+	@include flexRow(flex-start, flex-start);
+
+	.pile {
+        width: 74px;
+        padding: 5px;
+		border: 2px solid white;
+		margin: 0 10px;
+	}
+.card {
+    border: 2px solid white;
+    border-radius: 5px;
+
+    position: relative;
+}
+	.card.down {
+        background: $accent;
+        height: 20px;
+        border-radius: 5px 5px 0 0;
+        border-bottom: none;
+        &:after {
+            content: "";
+            width: calc(100% + 4px);
+            border-left: 2px solid white;
+            border-right: 2px solid white;
+            background: $accent;
+            height:5px;
+            position: absolute;
+            left: -2px;
+            bottom:-5px;
+        }
+        h2 {
+            display: none;
+        }
+    }
+    
+    .card.up {
+        height: 89px;
+        border:1px solid black;
+        background: white;  
+        @include flexRow(space-between, flex-start, wrap);
+        p {
+            display: inline-block;
+            line-height: 0;
+            width: 50%;
+            text-align: center;
+        }
+        .bigSuit {
+            font-size: 50px;
+            margin: 0 auto;
+        }
+        &.colour1 {
+            color: darkred;
+        }
+        &:not(:last-of-type) {
+            @extend .card.down;
+            &:after {
+                background: white;
+                border-radius: 1px;
+                border-color:black;
+            }
+            background: white;
+            .bigSuit{
+                display: none;
+            }
+        }
+    }
+}

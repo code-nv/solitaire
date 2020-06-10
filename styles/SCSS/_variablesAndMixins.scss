@@ -1,0 +1,57 @@
+// variables
+$accent: #E4A436;
+$green: #709B6B;
+$pine: #345231;
+$black: #1F1F1F;
+$white: #F6F6F6;
+
+$headingStack: "Abril Fatface", cursive;
+$bodyStack: "Montserrat", sans-serif;
+
+
+//mixins
+@mixin flexRow($justify: center, $align: center, $wrap:nowrap) {
+    display: flex;
+    flex-direction: row;
+    justify-content: $justify;
+	align-items: $align;
+	flex-wrap: $wrap;
+}
+
+@mixin flexCol($align: center, $justify: center, $wrap:nowrap) {
+    display: flex;
+    flex-direction: column;
+	align-items: $align;
+    justify-content: $justify;
+	flex-wrap: $wrap;
+}
+
+//media query mixins
+@mixin maxWidth950 {
+	@media (max-width: 950px) {
+		@content;
+	}
+}
+// major break
+@mixin maxWidth740 {
+	@media (max-width: 740px) {
+		@content;
+	}
+}
+
+@mixin maxWidth600 {
+	@media (max-width: 600px) {
+		@content;
+	}
+}
+
+@mixin maxWidth500 {
+	@media (max-width: 500px) {
+		@content;
+	}
+}
+
+// this is an empty class that I was using the @extend rule to experiment with for future reference vs using mixins. I say empty class because it's not in the html markup but I am using it in my partials
+.padding {
+    padding: 100px 0;
+}
