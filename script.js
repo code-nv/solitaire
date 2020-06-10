@@ -108,7 +108,8 @@ app.visualizeMove = (pilePicked,cardPicked, endPile) =>{
 
 }
 
-// make last card in a pile face up
+// make last card in a pile face up ✔️
+// read about dom manipulation to see if i can move the cards to other piles and thus move the event listener with them.
 // make deck reveal third card,
 // make deck reveal previous discarded cards if deck card is used
 // logic for alternate colour descending number placing options
