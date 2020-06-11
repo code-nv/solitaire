@@ -1,6 +1,7 @@
 const app = {};
 app.deck = [];
 app.board = [];
+app.foundations = { hearts: [], diamonds: [], clubs: [], spades: [] };
 document.addEventListener("DOMContentLoaded", function () {
 	app.createDeck();
 	app.dealCards();
@@ -11,13 +12,22 @@ document.addEventListener("DOMContentLoaded", function () {
 app.createDeck = () => {
 	for (let i = 1; i < 8; i++) {
 		let suit;
+		let suitLogic;
 		for (let y = 0; y < 4; y++) {
-			y == 0 ? (suit = "♥") : y == 1 ? (suit = "♦") : y == 2 ? (suit = "♣") : suit == "♠";
+			y == 0
+				? ((suit = "♥"), (suitLogic = "hearts"))
+				: y == 1
+				? ((suit = "♦"), (suitLogic = "diamonds"))
+				: y == 2
+				? ((suit = "♣"), (suitLogic = "clubs"))
+				: suit == "♠",
+				(suitLogic = "spades");
 			y < 2 ? (colour = 1) : (colour = 2);
 			app.deck.push({
 				value: i,
 				faceValue: i,
 				suit: suit,
+				suitLogic: suitLogic,
 				colour: colour,
 			});
 		}
@@ -83,6 +93,7 @@ app.activateCards = (cards) => {
 			const cardPicked = this.getAttribute("data-cardindex");
 			const pilePicked = this.getAttribute("data-pileindex");
 			const targetCard = app.board[pilePicked][cardPicked];
+			app.checkFoundations(targetCard);
 			app.board.forEach((pile, i) => {
 				const moves = pile[pile.length - 1];
 				if (!moves) {
@@ -101,24 +112,28 @@ app.activateCards = (cards) => {
 	}
 };
 
+app.checkFoundations = (targetCard) => {
+	for (let type in app.foundations) {
+		if (type == targetCard.suitLogic) {
+			if (app.foundations[type].length == 0 && targetCard.value == 1) {
+				console.log("lets start");
+			}
+		}
+	}
+};
+
 app.visualizeMove = (pilePicked, cardPicked, endPile) => {
-	let nodeCount = 0;
 	const startPile = document.querySelector(`.pile${pilePicked}`);
 	const startCards = startPile.getElementsByClassName("card");
-	// this will move every card on top of the chosen cards as well because 
-	while(cardPicked < startCards.length) {	
-		console.log('fizz')
+	// this will move every card on top of the chosen cards as well because
+	while (cardPicked < startCards.length) {
+		console.log("fizz");
 		const grabNode = startCards[cardPicked];
 		// grabNode.parentNode.removeChild(grabNode);
 		grabNode.setAttribute("data-pileindex", endPile);
 		grabNode.setAttribute("data-cardindex", app.board[endPile].length - 1);
 		document.querySelector(`.pile${endPile}`).appendChild(grabNode);
 	}
-// 	while(cardPicked < startCards.length) {	
-// 		console.log('buzz')
-// const nodeToRemove = startCards[startCards.length-1]
-// 	nodeToRemove.parentNode.removeChild(nodeToRemove);
-// 	}
 	const newTopCard = startCards[cardPicked - 1];
 	if (!newTopCard) {
 		return;
@@ -127,8 +142,7 @@ app.visualizeMove = (pilePicked, cardPicked, endPile) => {
 	newTopCard.classList.add("up");
 };
 
-// make last card in a pile face up ✔️
-// read about dom manipulation to see if i can move the cards to other piles and thus move the event listener with them.
+// in checkfoundations function, grab the target card node and move it to the foundations pile <3 
 // make deck reveal third card,
 // make deck reveal previous discarded cards if deck card is used
 // logic for alternate colour descending number placing options
