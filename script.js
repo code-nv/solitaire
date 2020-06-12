@@ -63,13 +63,11 @@ app.dealCards = () => {
 };
 
 app.shuffleDeck = () => {
-	const shuffled = [];
 	while (app.deck.length > 0) {
 		let index = app.rng();
-		shuffled.push(app.deck[index]);
+		app.hand.push(app.deck[index]);
 		app.deck.splice(index, 1);
 	}
-	shuffled.forEach((card) => app.hand.push(card));
 };
 
 app.visualizeTable = () => {
@@ -87,6 +85,8 @@ app.visualizeTable = () => {
 app.addListeners = () => {
 	const hand = document.querySelector(".hand");
 	hand.addEventListener("click", app.handLogic);
+	const waste = document.querySelector(".waste");
+	waste.addEventListener("click", app.wasteLogic);
 	const piles = document.getElementsByClassName("pile");
 	for (let i = 0; i < piles.length; i++) {
 		const cards = piles[i].getElementsByClassName("card");
@@ -95,10 +95,36 @@ app.addListeners = () => {
 };
 // figure out why this is bugging out
 app.handLogic = (e) => {
+	const card = app.hand[0];
+	app.waste.push(card);
+	app.hand.shift();
 	console.log(app.hand, app.waste);
-	const draw = app.hand.splice(0, 1);
-	app.waste.push(draw);
-	console.log(app.hand, app.waste);
+	document.querySelector(".waste").innerHTML = `<div class="currentCard card up colour${card.colour}" data-cardindex="0" data-pileindex=waste"><p>${card.faceValue}</p><p>${card.suit}</p><p class="bigSuit">${card.suit}</p></div>`;
+};
+
+app.wasteLogic = function (e) {
+	const cardPicked = 	0
+	const targetCard = app.waste[app.waste.length-1];
+	const pilePicked = "waste";
+	app.checkFoundations(targetCard, cardPicked, pilePicked);
+	if (app.foundationMove == true) {
+		app.foundationMove = false
+		return
+	} else {
+		app.board.forEach((pile, i) => {
+			const moves = pile[pile.length - 1];
+			if (!moves) {
+				return;
+			}
+			if (i != parseInt(pilePicked)) {
+				if (moves.value == targetCard.value + 1 && moves.colour != targetCard.colour) {
+					const movingCards = app.waste.pop();
+					app.board[pile].push(movingCards);
+					app.visualizeMove(pilePicked, cardPicked, i);
+				}
+			}
+		});
+	}
 };
 // where cards is the cards in a respective pile
 app.activateCards = (cards) => {
@@ -113,7 +139,12 @@ app.activateCards = (cards) => {
 			const cardPicked = this.getAttribute("data-cardindex");
 			const pilePicked = this.getAttribute("data-pileindex");
 			const targetCard = app.board[pilePicked][cardPicked];
+			console.log(cardPicked,pilePicked,targetCard, 'check from table tto foundation')
 			app.checkFoundations(targetCard, cardPicked, pilePicked);
+			if (app.foundationMove == true) {
+				app.foundationMove = false
+				return
+			}
 			app.board.forEach((pile, i) => {
 				const moves = pile[pile.length - 1];
 				if (!moves) {
@@ -121,7 +152,6 @@ app.activateCards = (cards) => {
 				}
 				if (i != parseInt(pilePicked)) {
 					if (moves.value == targetCard.value + 1 && moves.colour != targetCard.colour) {
-						// const difference = pile.length - cardPicked + 1;
 						const movingCards = app.board[pilePicked].splice(cardPicked);
 						pile.push(...movingCards);
 						app.visualizeMove(pilePicked, cardPicked, i);
@@ -131,20 +161,27 @@ app.activateCards = (cards) => {
 		});
 	}
 };
-
+app.foundationMove = false
 app.checkFoundations = (targetCard, cardPicked, pilePicked) => {
 	console.log(targetCard);
+	let movingCards;
+	if (pilePicked == "waste") {
+		movingCards = [app.waste[cardPicked]];
+	} else {
+		movingCards = app.board[pilePicked].splice(cardPicked);
+	}
 	for (let type in app.foundations) {
 		if (type == targetCard.suitLogic && app.foundations[type].length == 0 && targetCard.value == 1) {
 			console.log(type, targetCard.suitLogic);
-			const movingCards = app.board[pilePicked].splice(cardPicked);
 			app.foundations[type].push(...movingCards);
 			app.visualizeMove(pilePicked, cardPicked, type);
 		} else if (type == targetCard.suitLogic && app.foundations[type].length == targetCard.value - 1) {
 			console.log(type, targetCard.suitLogic);
-			const movingCards = app.board[pilePicked].splice(cardPicked);
+			// const movingCards = app.board[pilePicked].splice(cardPicked);
 			app.foundations[type].push(...movingCards);
+			console.log(pilePicked,cardPicked,type)
 			app.visualizeMove(pilePicked, cardPicked, type);
+			app.foundationMove = true
 		}
 	}
 };
@@ -153,6 +190,7 @@ app.checkFoundations = (targetCard, cardPicked, pilePicked) => {
 app.visualizeMove = (pilePicked, cardPicked, endPile) => {
 	const startPile = document.querySelector(`.pile${pilePicked}`);
 	const startCards = startPile.getElementsByClassName("card");
+	console.log(startPile,startCards, cardPicked, 'visualize move')
 	// this will move every card on top of the chosen cards as well because
 	while (cardPicked < startCards.length) {
 		const grabNode = startCards[cardPicked];

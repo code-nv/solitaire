@@ -248,8 +248,32 @@ h6 {
   margin: 0;
 }
 
-.board {
+body {
   background: #345231;
+  font-size: 62.5%;
+}
+
+.board {
+  width: 910px;
+  margin: 0 auto;
+}
+
+.topRow {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
 }
 
 .foundations {
@@ -268,52 +292,25 @@ h6 {
           align-items: center;
   -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
-  margin-left: 95px;
 }
 
 .foundations .foundation {
   position: relative;
   margin: 10px;
-  height: 101px;
-  width: 75px;
+  width: 110px;
+  height: 149px;
   border: 2px solid white;
+  border-radius: 10px;
 }
 
 .foundations .card {
   position: absolute;
   top: 5px;
   right: 5px;
-  width: 60px;
+  width: 96px;
 }
 
 .deckContainer {
-  position: absolute;
-  left: 74%;
-  top: 0;
-}
-
-.hand {
-  position: relative;
-  margin: 10px;
-  height: 101px;
-  width: 75px;
-  border: 2px solid white;
-  padding: 5px;
-}
-
-.dummyCard {
-  width: 60px;
-  background: #E4A436;
-  height: 20px;
-  border: 2px solid white;
-  border-radius: 5px;
-  height: 89px;
-}
-
-.tableau {
-  width: 100vw;
-  height: 100vh;
-  margin-left: 95px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -321,9 +318,47 @@ h6 {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  width: 260px;
+}
+
+.hand,
+.waste {
+  margin: 10px;
+  height: 149px;
+  width: 110px;
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.dummyCard {
+  width: 100%;
+  height: 100%;
+  background: #E4A436;
+  border: 2px solid white;
+  border-radius: 5px;
+}
+
+.tableau {
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: flex-start;
@@ -332,16 +367,15 @@ h6 {
 }
 
 .pile {
-  width: 75px;
+  width: 110px;
   padding: 5px;
-  min-height: 102px;
+  min-height: 149px;
   border-top: 2px solid white;
   border-radius: 10px;
   margin: 0 10px;
 }
 
 .card {
-  width: 60px;
   border: 2px solid white;
   border-radius: 5px;
   position: relative;
@@ -366,12 +400,16 @@ h6 {
   bottom: -5px;
 }
 
-.card.down h2, .card.up:not(:last-of-type) h2 {
+.card.down p, .card.up:not(:last-of-type) p {
   display: none;
 }
 
+.pile .card.up p {
+  display: inline-block;
+}
+
 .card.up {
-  height: 89px;
+  height: 135px;
   border: 1px solid black;
   background: white;
   display: -webkit-box;
@@ -392,14 +430,16 @@ h6 {
 }
 
 .card.up p {
-  display: inline-block;
   line-height: 0;
+  font-size: calc(20px + 0.5vw);
   width: 50%;
   text-align: center;
+  -webkit-transform: translateY(-5px);
+          transform: translateY(-5px);
 }
 
 .card.up .bigSuit {
-  font-size: 50px;
+  font-size: calc(20px + 4vw);
   margin: 0 auto;
 }
 
@@ -408,6 +448,7 @@ h6 {
 }
 
 .card.up:not(:last-of-type) {
+  height: 30px;
   background: white;
 }
 

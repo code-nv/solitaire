@@ -1,62 +1,64 @@
 .board {
-	background: $pine;
+    width: 910px;
+    margin: 0 auto;
+}
+
+.topRow {
+    @include flexRow(space-between);
 }
 .foundations {
 	@include flexRow(flex-start);
-	margin-left: 95px;
 	.foundation {
 		position: relative;
 		margin: 10px;
-		height: 101px;
-		width: 75px;
-		border: 2px solid white;
+        width: 110px;
+		height: 149px;
+        border: 2px solid white;
+        border-radius: 10px;
 	}
 	.card {
 		position: absolute;
 		top: 5px;
 		right: 5px;
-		width: 60px;
+		width: 96px;
 	}
 }
 
 .deckContainer {
-    position: absolute;
-    left: 74%;
-    top: 0;
+    @include flexRow();
+    width: 260px;
 }
-.hand {
-	position: relative;
+.hand,
+.waste {
 		margin: 10px;
-		height: 101px;
-		width: 75px;
+		height: 149px;
+		width: 110px;
         border: 2px solid white;
+        border-radius: 10px;
         padding: 5px;
 }
+
 .dummyCard {
-    width: 60px;
+    width: 100%;
+    height: 100%;
     background: $accent;
-    height: 20px;
     border: 2px solid white;
     border-radius: 5px;
-    height: 89px;
 }
 
 .tableau {
-	width: 100vw;
 	height: 100vh;
-	margin-left: 95px;
-	@include flexRow(flex-start, flex-start);
+	@include flexRow(center, flex-start);
 }
 .pile {
-	width: 75px;
+    width: 110px;
 	padding: 5px;
-	min-height: 102px;
+	min-height: 149px;
     border-top: 2px solid white;
     border-radius: 10px;
 	margin: 0 10px;
 }
 .card {
-	width: 60px;
 	border: 2px solid white;
 	border-radius: 5px;
 
@@ -78,31 +80,35 @@
 		left: -2px;
 		bottom: -5px;
 	}
-	h2 {
+	p {
 		display: none;
 	}
 }
-
+.pile .card.up p {
+    display: inline-block;
+}
 .card.up {
-	height: 89px;
+	height: 135px;
 	border: 1px solid black;
 	background: white;
 	@include flexRow(space-between, flex-start, wrap);
 	p {
-		display: inline-block;
-		line-height: 0;
+        line-height: 0;
+        font-size: calc(20px + 0.5vw);
 		width: 50%;
-		text-align: center;
+        text-align: center;
+        transform: translateY(-5px);
 	}
 	.bigSuit {
-		font-size: 50px;
+		font-size: calc(20px + 4vw);
 		margin: 0 auto;
 	}
 	&.colour1 {
 		color: darkred;
 	}
 	&:not(:last-of-type) {
-		@extend .card.down;
+        @extend .card.down;
+        height: 30px;
 		&:after {
 			background: white;
 			border-radius: 1px;
