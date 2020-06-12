@@ -286,6 +286,30 @@ h6 {
   width: 60px;
 }
 
+.deckContainer {
+  position: absolute;
+  left: 74%;
+  top: 0;
+}
+
+.hand {
+  position: relative;
+  margin: 10px;
+  height: 101px;
+  width: 75px;
+  border: 2px solid white;
+  padding: 5px;
+}
+
+.dummyCard {
+  width: 60px;
+  background: #E4A436;
+  height: 20px;
+  border: 2px solid white;
+  border-radius: 5px;
+  height: 89px;
+}
+
 .tableau {
   width: 100vw;
   height: 100vh;

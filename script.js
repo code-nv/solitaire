@@ -1,11 +1,15 @@
 const app = {};
 app.deck = [];
+app.hand = [];
+app.waste = [];
 app.board = [];
+
 app.foundations = { hearts: [], diamonds: [], clubs: [], spades: [] };
 document.addEventListener("DOMContentLoaded", function () {
 	app.createDeck();
 	app.dealCards();
 	app.visualizeTable();
+	app.shuffleDeck();
 	app.addListeners();
 });
 
@@ -56,18 +60,17 @@ app.dealCards = () => {
 		}
 		app.board.push(pile);
 	}
-	app.shuffleDeck();
 };
 
 app.shuffleDeck = () => {
-	const shuffled = []
-	while(app.deck.length > 0) {
+	const shuffled = [];
+	while (app.deck.length > 0) {
 		let index = app.rng();
 		shuffled.push(app.deck[index]);
 		app.deck.splice(index, 1);
 	}
-	app.deck = shuffled
-}
+	shuffled.forEach((card) => app.hand.push(card));
+};
 
 app.visualizeTable = () => {
 	const htmlPile = document.getElementsByClassName("pile");
@@ -82,11 +85,20 @@ app.visualizeTable = () => {
 	}
 };
 app.addListeners = () => {
+	const hand = document.querySelector(".hand");
+	hand.addEventListener("click", app.handLogic);
 	const piles = document.getElementsByClassName("pile");
 	for (let i = 0; i < piles.length; i++) {
 		const cards = piles[i].getElementsByClassName("card");
 		app.activateCards(cards);
 	}
+};
+// figure out why this is bugging out
+app.handLogic = (e) => {
+	console.log(app.hand, app.waste);
+	const draw = app.hand.splice(0, 1);
+	app.waste.push(draw);
+	console.log(app.hand, app.waste);
 };
 // where cards is the cards in a respective pile
 app.activateCards = (cards) => {
@@ -148,9 +160,9 @@ app.visualizeMove = (pilePicked, cardPicked, endPile) => {
 		grabNode.setAttribute("data-pileindex", endPile);
 		document.querySelector(`.pile${endPile}`).appendChild(grabNode);
 		if (app.board[endPile]) {
-			const pileToIterateThrough =  document.querySelector(`.pile${endPile}`)
-			const cardsToIndex = pileToIterateThrough.getElementsByClassName('card')
-			for (let i=0; i<cardsToIndex.length; i++){
+			const pileToIterateThrough = document.querySelector(`.pile${endPile}`);
+			const cardsToIndex = pileToIterateThrough.getElementsByClassName("card");
+			for (let i = 0; i < cardsToIndex.length; i++) {
 				cardsToIndex[i].setAttribute("data-cardindex", i);
 			}
 		} else {
