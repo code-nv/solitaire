@@ -110,8 +110,14 @@ app.wasteLogic = function (e) {
 	const pilePicked = "waste";
 	app.checkFoundations(targetCard, cardPicked, pilePicked);
 	if (app.foundationMove == true) {
+		console.log(app.waste,'second check')
 		app.foundationMove = false;
-		return;
+		// shortening the root target
+		const card = app.waste[app.waste.length - 1];
+		// population the waste pile with what should be underneath the card that was just moved
+		document.querySelector(
+			".waste"
+		).innerHTML = `<div class="currentCard card up colour${card.colour}" data-cardindex="0" data-pileindex=waste"><p>${card.faceValue}</p><p>${card.suit}</p><p class="bigSuit">${card.suit}</p></div>`;
 	} else {
 		app.board.forEach((pile, i) => {
 			const moves = pile[pile.length - 1];
@@ -124,6 +130,10 @@ app.wasteLogic = function (e) {
 					pile.push(...movingCards);
 					console.log(pile);
 					app.visualizeMove(pilePicked, cardPicked, i);
+					const card = app.waste[app.waste.length - 1];
+					document.querySelector(
+						".waste"
+					).innerHTML = `<div class="currentCard card up colour${card.colour}" data-cardindex="0" data-pileindex=waste"><p>${card.faceValue}</p><p>${card.suit}</p><p class="bigSuit">${card.suit}</p></div>`;
 				}
 			}
 		});
@@ -168,31 +178,40 @@ app.activateCards = (cards) => {
 	}
 };
 app.foundationMove = false;
+// will check if the clicked card is a valid move to the foundation piles. has conditional logic whether the card comes from the tableau or the waste pile.
 app.checkFoundations = (targetCard, cardPicked, pilePicked) => {
 	console.log(targetCard);
 	let movingCards;
 	let origin;
 	if (pilePicked == "waste") {
+		cardPickedSplice = app.waste.length-1
 		movingCards = [app.waste[cardPicked]];
 		origin = app.waste;
 	} else {
+		cardPickedSplice = cardPicked
 		movingCards = [app.board[pilePicked][cardPicked]];
 		origin = app.board[pilePicked];
 	}
+	// if ace, start foundation pile
 	for (let type in app.foundations) {
 		if (type == targetCard.suitLogic && app.foundations[type].length == 0 && targetCard.value == 1) {
-			console.log(type, targetCard.suitLogic);
+			// push card to foundation array
 			app.foundations[type].push(...movingCards);
-			origin.splice(cardPicked);
-			app.visualizeMove(pilePicked, cardPicked, type);
-		} else if (type == targetCard.suitLogic && app.foundations[type].length == targetCard.value - 1) {
-			console.log(type, targetCard.suitLogic);
-			// const movingCards = app.board[pilePicked].splice(cardPicked);
-			app.foundations[type].push(...movingCards);
-			console.log(pilePicked, cardPicked, type);
-			origin.splice(cardPicked);
+			console.log( app.waste, 'this is your check')
+			// splice card from original array
+			origin.splice(cardPickedSplice);
+			console.log( app.waste, 'this is your check')
+			// visualize the move
 			app.visualizeMove(pilePicked, cardPicked, type);
 			app.foundationMove = true;
+			console.log(app.foundationMove, app.waste, 'this is your check')
+			// if valid move (suit and 1 value diff, place)
+		} else if (type == targetCard.suitLogic && app.foundations[type].length == targetCard.value - 1) {
+			app.foundations[type].push(...movingCards);
+			origin.splice(cardPickedSplice);
+			app.visualizeMove(pilePicked, cardPicked, type);
+			app.foundationMove = true;
+			console.log(app.foundationMove, app.waste, 'this is your check')
 		}
 	}
 };
