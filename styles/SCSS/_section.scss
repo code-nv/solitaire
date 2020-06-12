@@ -4,11 +4,19 @@
 .foundations {
 	@include flexRow(flex-start);
 	.foundation {
-		margin: 10px;
-		height: 89px;
-		width: 64px;
+        position: relative;
+        margin: 10px;
+        padding: 5px;
+		height: 101px;
+		width: 74px;
 		border: 2px solid white;
-	}
+    }
+    .card {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        width: 62px;
+    }
 }
 
 .tableau {
@@ -16,7 +24,7 @@
     height: 100vh;
     margin-left: 168px;
 	@include flexRow(flex-start, flex-start);
-
+}
 	.pile {
         width: 74px;
         padding: 5px;
@@ -81,4 +89,4 @@
             }
         }
     }
-}
+

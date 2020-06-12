@@ -271,10 +271,19 @@ h6 {
 }
 
 .foundations .foundation {
+  position: relative;
   margin: 10px;
-  height: 89px;
-  width: 64px;
+  padding: 5px;
+  height: 101px;
+  width: 74px;
   border: 2px solid white;
+}
+
+.foundations .card {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 62px;
 }
 
 .tableau {
@@ -298,27 +307,27 @@ h6 {
       flex-wrap: nowrap;
 }
 
-.tableau .pile {
+.pile {
   width: 74px;
   padding: 5px;
   border: 2px solid white;
   margin: 0 10px;
 }
 
-.tableau .card {
+.card {
   border: 2px solid white;
   border-radius: 5px;
   position: relative;
 }
 
-.tableau .card.down, .tableau .card.up:not(:last-of-type) {
+.card.down, .card.up:not(:last-of-type) {
   background: #E4A436;
   height: 20px;
   border-radius: 5px 5px 0 0;
   border-bottom: none;
 }
 
-.tableau .card.down:after, .tableau .card.up:not(:last-of-type):after {
+.card.down:after, .card.up:not(:last-of-type):after {
   content: "";
   width: calc(100% + 4px);
   border-left: 2px solid white;
@@ -330,11 +339,11 @@ h6 {
   bottom: -5px;
 }
 
-.tableau .card.down h2, .tableau .card.up:not(:last-of-type) h2 {
+.card.down h2, .card.up:not(:last-of-type) h2 {
   display: none;
 }
 
-.tableau .card.up {
+.card.up {
   height: 89px;
   border: 1px solid black;
   background: white;
@@ -355,32 +364,32 @@ h6 {
       flex-wrap: wrap;
 }
 
-.tableau .card.up p {
+.card.up p {
   display: inline-block;
   line-height: 0;
   width: 50%;
   text-align: center;
 }
 
-.tableau .card.up .bigSuit {
+.card.up .bigSuit {
   font-size: 50px;
   margin: 0 auto;
 }
 
-.tableau .card.up.colour1 {
+.card.up.colour1 {
   color: darkred;
 }
 
-.tableau .card.up:not(:last-of-type) {
+.card.up:not(:last-of-type) {
   background: white;
 }
 
-.tableau .card.up:not(:last-of-type):after {
+.card.up:not(:last-of-type):after {
   background: white;
   border-radius: 1px;
   border-color: black;
 }
 
-.tableau .card.up:not(:last-of-type) .bigSuit {
+.card.up:not(:last-of-type) .bigSuit {
   display: none;
 }

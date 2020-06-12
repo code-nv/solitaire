@@ -20,8 +20,7 @@ app.createDeck = () => {
 				? ((suit = "♦"), (suitLogic = "diamonds"))
 				: y == 2
 				? ((suit = "♣"), (suitLogic = "clubs"))
-				: suit == "♠",
-				(suitLogic = "spades");
+				: ((suit = "♠"), (suitLogic = "spades"));
 			y < 2 ? (colour = 1) : (colour = 2);
 			app.deck.push({
 				value: i,
@@ -93,7 +92,7 @@ app.activateCards = (cards) => {
 			const cardPicked = this.getAttribute("data-cardindex");
 			const pilePicked = this.getAttribute("data-pileindex");
 			const targetCard = app.board[pilePicked][cardPicked];
-			app.checkFoundations(targetCard);
+			app.checkFoundations(targetCard, cardPicked, pilePicked);
 			app.board.forEach((pile, i) => {
 				const moves = pile[pile.length - 1];
 				if (!moves) {
@@ -102,8 +101,8 @@ app.activateCards = (cards) => {
 				if (i != parseInt(pilePicked)) {
 					if (moves.value == targetCard.value + 1 && moves.colour != targetCard.colour) {
 						// const difference = pile.length - cardPicked + 1;
-						const test = app.board[pilePicked].splice(cardPicked);
-						pile.push(...test);
+						const movingCards = app.board[pilePicked].splice(cardPicked);
+						pile.push(...movingCards);
 						app.visualizeMove(pilePicked, cardPicked, i);
 					}
 				}
@@ -112,27 +111,42 @@ app.activateCards = (cards) => {
 	}
 };
 
-app.checkFoundations = (targetCard) => {
+app.checkFoundations = (targetCard, cardPicked, pilePicked) => {
+	console.log(targetCard);
 	for (let type in app.foundations) {
-		if (type == targetCard.suitLogic) {
-			if (app.foundations[type].length == 0 && targetCard.value == 1) {
-				console.log("lets start");
-			}
+		if (type == targetCard.suitLogic && app.foundations[type].length == 0 && targetCard.value == 1) {
+			console.log(type, targetCard.suitLogic);
+			const movingCards = app.board[pilePicked].splice(cardPicked);
+			app.foundations[type].push(...movingCards);
+			app.visualizeMove(pilePicked, cardPicked, type);
+		} else if (type == targetCard.suitLogic && app.foundations[type].length == targetCard.value - 1) {
+			console.log(type, targetCard.suitLogic);
+			const movingCards = app.board[pilePicked].splice(cardPicked);
+			app.foundations[type].push(...movingCards);
+			app.visualizeMove(pilePicked, cardPicked, type);
 		}
 	}
 };
-
+// moves the DOM node of cards to their destination pile.
+// re-indexes the data-cardindex of the cards in the destination pile
 app.visualizeMove = (pilePicked, cardPicked, endPile) => {
 	const startPile = document.querySelector(`.pile${pilePicked}`);
 	const startCards = startPile.getElementsByClassName("card");
 	// this will move every card on top of the chosen cards as well because
 	while (cardPicked < startCards.length) {
-		console.log("fizz");
 		const grabNode = startCards[cardPicked];
 		// grabNode.parentNode.removeChild(grabNode);
 		grabNode.setAttribute("data-pileindex", endPile);
-		grabNode.setAttribute("data-cardindex", app.board[endPile].length - 1);
 		document.querySelector(`.pile${endPile}`).appendChild(grabNode);
+		if (app.board[endPile]) {
+			const pileToIterateThrough =  document.querySelector(`.pile${endPile}`)
+			const cardsToIndex = pileToIterateThrough.getElementsByClassName('card')
+			for (let i=0; i<cardsToIndex.length; i++){
+				cardsToIndex[i].setAttribute("data-cardindex", i);
+			}
+		} else {
+			grabNode.setAttribute("data-cardindex", app.foundations[endPile].length - 1);
+		}
 	}
 	const newTopCard = startCards[cardPicked - 1];
 	if (!newTopCard) {
@@ -142,7 +156,7 @@ app.visualizeMove = (pilePicked, cardPicked, endPile) => {
 	newTopCard.classList.add("up");
 };
 
-// in checkfoundations function, grab the target card node and move it to the foundations pile <3 
+// in checkfoundations function, grab the target card node and move it to the foundations pile <3
 // make deck reveal third card,
 // make deck reveal previous discarded cards if deck card is used
 // logic for alternate colour descending number placing options
