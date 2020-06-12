@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 app.createDeck = () => {
-	for (let i = 1; i < 8; i++) {
+	for (let i = 1; i < 14; i++) {
 		let suit;
 		let suitLogic;
 		for (let y = 0; y < 4; y++) {
@@ -56,9 +56,18 @@ app.dealCards = () => {
 		}
 		app.board.push(pile);
 	}
-	// console.log(app.board);
-	// console.log(app.deck)
+	app.shuffleDeck();
 };
+
+app.shuffleDeck = () => {
+	const shuffled = []
+	while(app.deck.length > 0) {
+		let index = app.rng();
+		shuffled.push(app.deck[index]);
+		app.deck.splice(index, 1);
+	}
+	app.deck = shuffled
+}
 
 app.visualizeTable = () => {
 	const htmlPile = document.getElementsByClassName("pile");
