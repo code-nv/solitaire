@@ -38,12 +38,20 @@
         padding: 5px;
 }
 
+
+
 .dummyCard {
     width: 100%;
     height: 100%;
     background: $accent;
     border: 2px solid white;
     border-radius: 5px;
+    &:focus {
+        outline: 2px solid red;
+    }
+    &.emptyHand {
+        background: $primary;
+    }
 }
 
 .tableau {
@@ -61,8 +69,10 @@
 .card {
 	border: 2px solid white;
 	border-radius: 5px;
-
-	position: relative;
+    position: relative;
+    &:focus {
+        outline:5px solid red;
+    }
 }
 .card.down {
 	background: $accent;

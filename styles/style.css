@@ -347,6 +347,14 @@ body {
   border-radius: 5px;
 }
 
+.dummyCard:focus {
+  outline: 2px solid red;
+}
+
+.dummyCard.emptyHand {
+  background: #345231;
+}
+
 .tableau {
   height: 100vh;
   display: -webkit-box;
@@ -379,6 +387,10 @@ body {
   border: 2px solid white;
   border-radius: 5px;
   position: relative;
+}
+
+.card:focus {
+  outline: 5px solid red;
 }
 
 .card.down, .card.up:not(:last-of-type) {
