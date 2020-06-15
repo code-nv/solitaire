@@ -288,7 +288,7 @@ app.visualizeMove = (pilePicked, cardPicked, endPile) => {
 			const pileToIterateThrough = document.querySelector(`.pile${endPile}`);
 			const cardsToIndex = pileToIterateThrough.getElementsByClassName("card");
 			for (let i = 0; i < cardsToIndex.length; i++) {
-				cardsToIndex[i].setAttribute("data-cardindex", i);
+ext 				cardsToIndex[i].setAttribute("data-cardindex", i);
 			}
 		} else {
 			grabNode.setAttribute("data-cardindex", app.foundations[endPile].length - 1);
