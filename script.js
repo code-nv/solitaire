@@ -197,7 +197,9 @@ app.activateCards = (cards) => {
 	}
 };
 app.cardFunctionality = (target) => {
-	console.log("clicked");
+	const isInFoundation = [...target.parentNode.classList].includes('foundation')
+	// this resolves a boolean, use this to alter the origin from app.board to app.foundations like you did with the waste logic or something like that
+	console.log(isInFoundation)
 	const check = [...target.classList];
 	if (check.includes("down")) {
 		return;
@@ -272,6 +274,17 @@ app.checkFoundations = (targetCard, cardPicked, pilePicked) => {
 		}
 	}
 };
+
+app.foundationsEvents = function() {
+	const foundations = document.getElementsByClassName('foundation')
+	for(let i=0;i<foundations.length;i++){
+		foundations[i].addEventListener('click', function(){
+			console.log(this)
+		})
+	}
+}
+
+app.foundationsEvents();
 // moves the DOM node of cards to their destination pile.
 // re-indexes the data-cardindex of the cards in the destination pile
 app.visualizeMove = (pilePicked, cardPicked, endPile) => {
@@ -287,8 +300,7 @@ app.visualizeMove = (pilePicked, cardPicked, endPile) => {
 		if (app.board[endPile]) {
 			const pileToIterateThrough = document.querySelector(`.pile${endPile}`);
 			const cardsToIndex = pileToIterateThrough.getElementsByClassName("card");
-			for (let i = 0; i < cardsToIndex.length; i++) {
-ext 				cardsToIndex[i].setAttribute("data-cardindex", i);
+			for (let i = 0; i < cardsToIndex.length; i++) { 				cardsToIndex[i].setAttribute("data-cardindex", i);
 			}
 		} else {
 			grabNode.setAttribute("data-cardindex", app.foundations[endPile].length - 1);
@@ -302,7 +314,6 @@ ext 				cardsToIndex[i].setAttribute("data-cardindex", i);
 	newTopCard.classList.add("up");
 };
 
-// in checkfoundations function, grab the target card node and move it to the foundations pile <3
+// pick up on line 200, adjusting the targeting to work for cards in the foundation pile
+// alter the waste to foundations moves to add the card functionality that the tableau has so that they function the same as cards that came from the tableau in the first place
 // make deck reveal third card,
-// make deck reveal previous discarded cards if deck card is used
-// logic for alternate colour descending number placing options
