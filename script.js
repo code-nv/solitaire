@@ -117,9 +117,15 @@ app.wasteLogic = function (e) {
 	const cardPicked = 0;
 	const targetCard = app.waste[app.waste.length - 1];
 	const pilePicked = "waste";
+	const suitOfWaste = targetCard.suitLogic;
 	app.checkFoundations(targetCard, cardPicked, pilePicked);
 	if (app.foundationMove == true) {
-		console.log(app.waste, targetCard, "second check");
+		let movedCard = document.querySelector(`.pile${suitOfWaste}`).children;
+		movedCard = movedCard[movedCard.length - 1];
+		movedCard.addEventListener("click", function () {
+			app.cardFunctionality(movedCard);
+		});
+
 		app.foundationMove = false;
 		// shortening the root target
 		// redefining card to reflect the new length of the waste array which has altered since the targetcard definition
@@ -197,9 +203,9 @@ app.activateCards = (cards) => {
 	}
 };
 app.cardFunctionality = (target) => {
-	const isInFoundation = [...target.parentNode.classList].includes('foundation')
-	// this resolves a boolean, use this to alter the origin from app.board to app.foundations like you did with the waste logic or something like that
-	console.log(isInFoundation)
+	// boolean to change origin value for dom targeting
+	const isInFoundation = [...target.parentNode.classList].includes("foundation");
+	// is the card revealed or facedown?
 	const check = [...target.classList];
 	if (check.includes("down")) {
 		return;
@@ -207,8 +213,10 @@ app.cardFunctionality = (target) => {
 	// using data attributes to manipulate the js arrays
 	const cardPicked = target.getAttribute("data-cardindex");
 	const pilePicked = target.getAttribute("data-pileindex");
-	const targetCard = app.board[pilePicked][cardPicked];
-	if (cardPicked == app.board[pilePicked].length - 1) {
+	let origin = "";
+	isInFoundation ? (origin = app.foundations) : (origin = app.board);
+	const targetCard = origin[pilePicked][cardPicked];
+	if (isInFoundation == false && cardPicked == origin[pilePicked].length - 1) {
 		app.checkFoundations(targetCard, cardPicked, pilePicked);
 		if (app.foundationMove == true) {
 			console.log("foundations is true");
@@ -228,8 +236,7 @@ app.cardFunctionality = (target) => {
 			} else if (!moves) {
 				return;
 			} else if (moves.value == targetCard.value + 1 && moves.colour != targetCard.colour) {
-				// console.log(cardPicked, app.board[pilePicked], app.board[pilePicked][parseInt(cardPicked)]);
-				const movingCards = app.board[pilePicked].splice(cardPicked);
+				const movingCards = origin[pilePicked].splice(cardPicked);
 				pile.push(...movingCards);
 				app.visualizeMove(pilePicked, cardPicked, i);
 			}
@@ -239,7 +246,6 @@ app.cardFunctionality = (target) => {
 app.foundationMove = false;
 // will check if the clicked card is a valid move to the foundation piles. has conditional logic whether the card comes from the tableau or the waste pile.
 app.checkFoundations = (targetCard, cardPicked, pilePicked) => {
-	// console.log(targetCard);
 	let movingCards;
 	let origin;
 	if (pilePicked == "waste") {
@@ -256,14 +262,11 @@ app.checkFoundations = (targetCard, cardPicked, pilePicked) => {
 		if (type == targetCard.suitLogic && app.foundations[type].length == 0 && targetCard.value == 1) {
 			// push card to foundation array
 			app.foundations[type].push(...movingCards);
-			// console.log(app.waste, "this is your check");
 			// splice card from original array
 			origin.splice(cardPickedSplice);
-			// console.log(app.waste, "this is your check");
 			// visualize the move
 			app.visualizeMove(pilePicked, cardPicked, type);
 			app.foundationMove = true;
-			// console.log(app.foundationMove, app.waste, "this is your check");
 			// if valid move (suit and 1 value diff, place)
 		} else if (type == targetCard.suitLogic && app.foundations[type].length == targetCard.value - 1) {
 			app.foundations[type].push(...movingCards);
@@ -275,32 +278,21 @@ app.checkFoundations = (targetCard, cardPicked, pilePicked) => {
 	}
 };
 
-app.foundationsEvents = function() {
-	const foundations = document.getElementsByClassName('foundation')
-	for(let i=0;i<foundations.length;i++){
-		foundations[i].addEventListener('click', function(){
-			console.log(this)
-		})
-	}
-}
-
-app.foundationsEvents();
 // moves the DOM node of cards to their destination pile.
 // re-indexes the data-cardindex of the cards in the destination pile
 app.visualizeMove = (pilePicked, cardPicked, endPile) => {
 	const startPile = document.querySelector(`.pile${pilePicked}`);
 	const startCards = startPile.getElementsByClassName("card");
-	// console.log(startPile, startCards, cardPicked, "visualize move");
 	// this will move every card on top of the chosen cards as well because
 	while (cardPicked < startCards.length) {
 		const grabNode = startCards[cardPicked];
-		// grabNode.parentNode.removeChild(grabNode);
 		grabNode.setAttribute("data-pileindex", endPile);
 		document.querySelector(`.pile${endPile}`).appendChild(grabNode);
 		if (app.board[endPile]) {
 			const pileToIterateThrough = document.querySelector(`.pile${endPile}`);
 			const cardsToIndex = pileToIterateThrough.getElementsByClassName("card");
-			for (let i = 0; i < cardsToIndex.length; i++) { 				cardsToIndex[i].setAttribute("data-cardindex", i);
+			for (let i = 0; i < cardsToIndex.length; i++) {
+				cardsToIndex[i].setAttribute("data-cardindex", i);
 			}
 		} else {
 			grabNode.setAttribute("data-cardindex", app.foundations[endPile].length - 1);
@@ -314,6 +306,10 @@ app.visualizeMove = (pilePicked, cardPicked, endPile) => {
 	newTopCard.classList.add("up");
 };
 
-// pick up on line 200, adjusting the targeting to work for cards in the foundation pile
-// alter the waste to foundations moves to add the card functionality that the tableau has so that they function the same as cards that came from the tableau in the first place
+
 // make deck reveal third card,
+// if less than three in hand, reveal last card,
+// add winner functionality
+// add money?
+// add timer?
+// add animations?
