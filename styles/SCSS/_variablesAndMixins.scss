@@ -18,14 +18,13 @@ $bodyStack: "Montserrat", sans-serif;
 	flex-wrap: $wrap;
 }
 
-@mixin flexCol($align: center, $justify: center, $wrap:nowrap) {
+@mixin flexCol($justify: center, $align: center, $wrap:nowrap) {
     display: flex;
     flex-direction: column;
-	align-items: $align;
     justify-content: $justify;
+	align-items: $align;
 	flex-wrap: $wrap;
 }
-
 //media query mixins
 @mixin maxWidth950 {
 	@media (max-width: 950px) {

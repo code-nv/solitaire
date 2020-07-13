@@ -3,6 +3,7 @@ app.deck = [];
 app.hand = [];
 app.waste = [];
 app.board = [];
+app.flip3 = false;
 
 app.foundations = { hearts: [], diamonds: [], clubs: [], spades: [] };
 document.addEventListener("DOMContentLoaded", function () {
@@ -92,12 +93,37 @@ app.addListeners = () => {
 		const cards = piles[i].getElementsByClassName("card");
 		app.activateCards(cards);
 	}
+	const gameOptions = document.getElementsByClassName("options");
+	gameOptions[0].addEventListener("click", function () {
+		app.flip("three");
+	});
+	gameOptions[1].addEventListener("click", function () {
+		app.flip("one");
+	});
+	gameOptions[2].addEventListener("click", function () {
+		app.newGame();
+	});
 };
-// figure out why this is bugging out
 app.handLogic = (e) => {
+	if (app.flip3 == false) {
+		app.flipCard(e);
+	} else {
+		app.flipCard(e);
+		console.log('flip1')
+		app.hand.length > 0 ? (app.emptyHand == false ? app.flipCard(e) : null) : null
+		console.log('flip2')
+		app.hand.length > 0 ? (app.emptyHand == false ? app.flipCard(e) : null) : null
+		console.log('flip3')
+	}
+};
+app.emptyHand = false
+// figure out why this is bugging out
+app.flipCard = (e) => {
+	app.emptyHand = false
 	const dummyCard = document.querySelector(".dummyCard");
 	const waste = document.querySelector(".waste");
 	if (app.hand.length == 0) {
+		app.emptyHand = true
 		console.log("emptyHand");
 		dummyCard.classList.remove("emptyHand");
 		app.hand = [...app.waste];
@@ -305,7 +331,15 @@ app.visualizeMove = (pilePicked, cardPicked, endPile) => {
 	newTopCard.classList.remove("down");
 	newTopCard.classList.add("up");
 };
+// game options functions
+app.flip = (type) => {
+	type == "three" ? (app.flip3 = true) : (app.flip3 = false);
+	console.log(app.flip3);
+};
 
+app.newGame = () => {
+	console.log("newgame");
+};
 
 // make deck reveal third card,
 // if less than three in hand, reveal last card,
