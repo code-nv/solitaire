@@ -1,73 +1,108 @@
 .board {
-    width: 910px;
-    margin: 0 auto;
+	width: 910px;
+	margin: 0 auto;
 }
 
 .topRow {
-    @include flexRow(space-between);
+	@include flexRow(space-between);
 }
 .foundations {
 	@include flexRow(flex-start);
+	//width is 4/7ths
+	width: 57.14%;
 	.foundation {
 		position: relative;
 		margin: 10px;
-        width: 110px;
+		width: 110px;
 		height: 149px;
-        border: 2px solid white;
-        border-radius: 10px;
+		border: 2px solid white;
+		border-radius: 10px;
+		padding: 5px;
 	}
 	.card {
 		position: absolute;
-		top: 5px;
-		right: 5px;
-		width: 96px;
+		width: calc(100% - 10px);
 	}
 }
 
 .optionsContainer {
 	@include flexCol(space-evenly, stretch);
-	width: 130px;
+	// width: 130px;
+	// width is 1/7
+	width: 14.28%;
 	height: 149px;
 	margin: 10px;
 
 	button {
+		position: relative;
+		display: inline-block;
 		background: $accent;
 		border: 2px solid white;
 		border-radius: 5px;
 		padding: 5px;
 		font-size: 18px;
 		color: $white;
+		&:active {
+			background: darken($accent, 20);
+		}
+	}
+
+	.activeMode {
+		background: darken($accent, 20);
+		&:before {
+			content: " ";
+			width: calc(100% + 15px);
+			position: absolute;
+			left: -7.5px;
+			top: -5px;
+			height: calc(100% + 10px);
+			border-radius: 5px;
+			border-left: 2px solid white;
+			border-right: 2px solid white;
+		}
+		// &:before,
+		// &:after {
+		// 	content: " ";
+		// 	position: absolute;
+		// 	left: -15px;
+		// 	top: 50%;
+		// 	transform: translateY(-50%);
+		// 	font-weight: bold;
+		// }
+		// &:after {
+		// 	left: calc(100% + 5px);
+		// }
 	}
 }
 
 .deckContainer {
-    @include flexRow();
-    width: 260px;
+	@include flexRow();
+	// width: 260px;
+	// width is 2/7
+	width: 28.57%;
 }
 .hand,
 .waste {
-		margin: 10px;
-		height: 149px;
-		width: 110px;
-        border: 2px solid white;
-        border-radius: 10px;
-        padding: 5px;
+	margin: 10px;
+	height: 149px;
+	width: 110px;
+	border: 2px solid white;
+	border-radius: 10px;
+	padding: 5px;
 }
 
-
-
 .dummyCard {
-    width: 100%;
-    height: 100%;
-    background: $accent;
-    border: 2px solid white;
-    border-radius: 5px;
-    &:focus {
-        outline: 2px solid red;
-    }
-    &.emptyHand {
-        background: $primary;
-    }
+	width: 100%;
+	height: 100%;
+	background: $accent;
+	border: 2px solid white;
+	border-radius: 5px;
+	&:focus {
+		outline: 2px dashed $green;
+	}
+	&.emptyHand {
+		background: $primary;
+	}
 }
 
 .tableau {
@@ -75,20 +110,20 @@
 	@include flexRow(center, flex-start);
 }
 .pile {
-    width: 110px;
+	width: 110px;
 	padding: 5px;
 	min-height: 149px;
-    border-top: 2px solid white;
-    border-radius: 10px;
+	border-top: 2px solid white;
+	border-radius: 10px;
 	margin: 0 10px;
 }
 .card {
 	border: 2px solid white;
 	border-radius: 5px;
-    position: relative;
-    &:focus {
-        outline:5px solid red;
-    }
+	position: relative;
+	&:focus {
+		outline: 2px dashed $green;
+	}
 }
 .card.down {
 	background: $accent;
@@ -111,7 +146,7 @@
 	}
 }
 .pile .card.up p {
-    display: inline-block;
+	display: inline-block;
 }
 .card.up {
 	height: 135px;
@@ -119,11 +154,11 @@
 	background: white;
 	@include flexRow(space-between, flex-start, wrap);
 	p {
-        line-height: 0;
-        font-size: calc(20px + 0.5vw);
+		line-height: 0;
+		font-size: calc(20px + 0.5vw);
 		width: 50%;
-        text-align: center;
-        transform: translateY(-5px);
+		text-align: center;
+		transform: translateY(-5px);
 	}
 	.bigSuit {
 		font-size: calc(20px + 4vw);
@@ -133,8 +168,8 @@
 		color: darkred;
 	}
 	&:not(:last-of-type) {
-        @extend .card.down;
-        height: 30px;
+		@extend .card.down;
+		height: 30px;
 		&:after {
 			background: white;
 			border-radius: 1px;

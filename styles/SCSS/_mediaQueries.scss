@@ -1,0 +1,177 @@
+@media (max-width: 910px) {
+	.tableau,
+	.topRow,
+	.board {
+		width: 100vw;
+	}
+	.pile {
+		width: 100%;
+	}
+	.card {
+		width: 100%;
+	}
+}
+
+@media (max-width: 750px) {
+	.foundations .foundation,
+	.hand,
+	.waste {
+		margin: 10px 5px;
+	}
+
+	.pile {
+		width: 100%;
+		margin: 0 5px;
+	}
+}
+
+@media (max-width: 560px) {
+	.optionsContainer {
+		margin: 10px 5px;
+		button {
+			font-size: 14px;
+			padding: 2.5px 0;
+		}
+	}
+	.foundations .foundation,
+	.optionsContainer,
+	.hand,
+	.waste {
+		height: 114px;
+	}
+	.pile {
+		border: none;
+		padding: 0;
+	}
+	.card.up {
+		height: 100px;
+		p {
+			transform: translateY(-7px);
+		}
+	}
+
+	.card.down {
+		height: 16px;
+	}
+	.card.up:not(:last-of-type) {
+		height: 25px;
+	}
+}
+
+@media (max-width: 475px) {
+	.foundations .foundation,
+	.optionsContainer,
+	.hand,
+	.waste {
+		height: 100px;
+		padding: 0;
+		border: 2px dashed #cfcfcf;
+	}
+	.optionsContainer {
+		border: none;
+		width: calc(14.28% - 10px);
+
+		button {
+			border-width: 1px;
+		}
+		.activeMode::before {
+			top: -2.5px;
+			left: -5px;
+			height: calc(100% + 5px);
+			border-width: 1px;
+			width: calc(100% + 10px);
+		}
+	}
+
+	.foundations .foundation {
+		padding: 0;
+		.card {
+			width: calc(100% + 4px);
+			height: 100px;
+			top: -2px;
+			left: -2px;
+			border-radius: 5px;
+
+			&:after {
+				width: 100%;
+				left: 0;
+				background: $primary;
+				bottom: 5px;
+			}
+		}
+	}
+	.dummyCard {
+		position: relative;
+	}
+	.dummyCard,
+	.waste .card {
+		width: calc(100% + 4px);
+		height: 100px;
+		top: -2px;
+		left: -2px;
+	}
+
+	.dummyCard.emptyHand {
+		border: 2px dashed #cfcfcf;
+	}
+}
+
+@media (max-width: 440px) {
+	.foundations .foundation,
+	.foundations .foundation .card,
+	.optionsContainer,
+	.hand,
+	.waste,
+	.dummyCard,
+	.card.up {
+		height: 80px;
+		p {
+			transform: translateY(-5px);
+		}
+	}
+
+	.card.down {
+		height: 10px;
+	}
+	.card.up:not(:last-of-type) {
+		height: 25px;
+	}
+
+	.card.up {
+		.bigSuit {
+			font-size: calc(16px + 4vw);
+		}
+		p {
+			font-size: calc(16px + 0.5vw);
+		}
+	}
+	.optionsContainer button {
+		padding: 1px 0;
+		&.newGame {
+			line-height: 1;
+		}
+    }
+    .foundations .foundation,
+	.hand,
+	.waste {
+		margin: 10px 3px;
+	}
+
+	.pile {
+		width: 100%;
+		margin: 0 3px;
+	}
+}
+
+@media (max-width: 350px) {
+    .foundations .foundation,
+	.hand,
+	.waste {
+		margin: 10px 2px;
+	}
+
+	.pile {
+		width: 100%;
+		margin: 0 2px;
+	}
+}

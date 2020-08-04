@@ -95,10 +95,10 @@ app.addListeners = () => {
 	}
 	const gameOptions = document.getElementsByClassName("options");
 	gameOptions[0].addEventListener("click", function () {
-		app.flip("three");
+		app.flip("three", ".flip3");
 	});
 	gameOptions[1].addEventListener("click", function () {
-		app.flip("one");
+		app.flip("one", ".flip1");
 	});
 	gameOptions[2].addEventListener("click", function () {
 		app.newGame();
@@ -109,21 +109,21 @@ app.handLogic = (e) => {
 		app.flipCard(e);
 	} else {
 		app.flipCard(e);
-		console.log('flip1')
-		app.hand.length > 0 ? (app.emptyHand == false ? app.flipCard(e) : null) : null
-		console.log('flip2')
-		app.hand.length > 0 ? (app.emptyHand == false ? app.flipCard(e) : null) : null
-		console.log('flip3')
+		console.log("flip1");
+		app.hand.length > 0 ? (app.emptyHand == false ? app.flipCard(e) : null) : null;
+		console.log("flip2");
+		app.hand.length > 0 ? (app.emptyHand == false ? app.flipCard(e) : null) : null;
+		console.log("flip3");
 	}
 };
-app.emptyHand = false
+app.emptyHand = false;
 // figure out why this is bugging out
 app.flipCard = (e) => {
-	app.emptyHand = false
+	app.emptyHand = false;
 	const dummyCard = document.querySelector(".dummyCard");
 	const waste = document.querySelector(".waste");
 	if (app.hand.length == 0) {
-		app.emptyHand = true
+		app.emptyHand = true;
 		console.log("emptyHand");
 		dummyCard.classList.remove("emptyHand");
 		app.hand = [...app.waste];
@@ -332,13 +332,20 @@ app.visualizeMove = (pilePicked, cardPicked, endPile) => {
 	newTopCard.classList.add("up");
 };
 // game options functions
-app.flip = (type) => {
+app.flip = (type, button) => {
 	type == "three" ? (app.flip3 = true) : (app.flip3 = false);
+	const activeButton = document.querySelector(button);
+	const flip1 = document.querySelector(".flip1");
+	const flip3 = document.querySelector(".flip3");
+	flip1.classList.remove("activeMode");
+	flip3.classList.remove("activeMode");
+	activeButton.classList.add("activeMode");
+
 	console.log(app.flip3);
 };
 
 app.newGame = () => {
-	console.log("newgame");
+	location.reload();
 };
 
 // make deck reveal third card,

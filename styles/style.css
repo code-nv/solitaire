@@ -292,6 +292,7 @@ body {
           align-items: center;
   -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
+  width: 57.14%;
 }
 
 .foundations .foundation {
@@ -301,13 +302,12 @@ body {
   height: 149px;
   border: 2px solid white;
   border-radius: 10px;
+  padding: 5px;
 }
 
 .foundations .card {
   position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 96px;
+  width: calc(100% - 10px);
 }
 
 .optionsContainer {
@@ -326,18 +326,40 @@ body {
           align-items: stretch;
   -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
-  width: 130px;
+  width: 14.28%;
   height: 149px;
   margin: 10px;
 }
 
 .optionsContainer button {
+  position: relative;
+  display: inline-block;
   background: #E4A436;
   border: 2px solid white;
   border-radius: 5px;
   padding: 5px;
   font-size: 18px;
   color: #F6F6F6;
+}
+
+.optionsContainer button:active {
+  background: #9f6c15;
+}
+
+.optionsContainer .activeMode {
+  background: #9f6c15;
+}
+
+.optionsContainer .activeMode:before {
+  content: " ";
+  width: calc(100% + 15px);
+  position: absolute;
+  left: -7.5px;
+  top: -5px;
+  height: calc(100% + 10px);
+  border-radius: 5px;
+  border-left: 2px solid white;
+  border-right: 2px solid white;
 }
 
 .deckContainer {
@@ -356,7 +378,7 @@ body {
           align-items: center;
   -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
-  width: 260px;
+  width: 28.57%;
 }
 
 .hand,
@@ -378,7 +400,7 @@ body {
 }
 
 .dummyCard:focus {
-  outline: 2px solid red;
+  outline: 2px dashed #709B6B;
 }
 
 .dummyCard.emptyHand {
@@ -420,7 +442,7 @@ body {
 }
 
 .card:focus {
-  outline: 5px solid red;
+  outline: 2px dashed #709B6B;
 }
 
 .card.down, .card.up:not(:last-of-type) {
@@ -502,4 +524,178 @@ body {
 
 .card.up:not(:last-of-type) .bigSuit {
   display: none;
+}
+
+@media (max-width: 910px) {
+  .tableau,
+  .topRow,
+  .board {
+    width: 100vw;
+  }
+  .pile {
+    width: 100%;
+  }
+  .card {
+    width: 100%;
+  }
+}
+
+@media (max-width: 750px) {
+  .foundations .foundation,
+  .hand,
+  .waste {
+    margin: 10px 5px;
+  }
+  .pile {
+    width: 100%;
+    margin: 0 5px;
+  }
+}
+
+@media (max-width: 560px) {
+  .optionsContainer {
+    margin: 10px 5px;
+  }
+  .optionsContainer button {
+    font-size: 14px;
+    padding: 2.5px 0;
+  }
+  .foundations .foundation,
+  .optionsContainer,
+  .hand,
+  .waste {
+    height: 114px;
+  }
+  .pile {
+    border: none;
+    padding: 0;
+  }
+  .card.up {
+    height: 100px;
+  }
+  .card.up p {
+    -webkit-transform: translateY(-7px);
+            transform: translateY(-7px);
+  }
+  .card.down, .card.up:not(:last-of-type) {
+    height: 16px;
+  }
+  .card.up:not(:last-of-type) {
+    height: 25px;
+  }
+}
+
+@media (max-width: 475px) {
+  .foundations .foundation,
+  .optionsContainer,
+  .hand,
+  .waste {
+    height: 100px;
+    padding: 0;
+    border: 2px dashed #cfcfcf;
+  }
+  .optionsContainer {
+    border: none;
+    width: calc(14.28% - 10px);
+  }
+  .optionsContainer button {
+    border-width: 1px;
+  }
+  .optionsContainer .activeMode::before {
+    top: -2.5px;
+    left: -5px;
+    height: calc(100% + 5px);
+    border-width: 1px;
+    width: calc(100% + 10px);
+  }
+  .foundations .foundation {
+    padding: 0;
+  }
+  .foundations .foundation .card {
+    width: calc(100% + 4px);
+    height: 100px;
+    top: -2px;
+    left: -2px;
+    border-radius: 5px;
+  }
+  .foundations .foundation .card:after {
+    width: 100%;
+    left: 0;
+    background: #345231;
+    bottom: 5px;
+  }
+  .dummyCard {
+    position: relative;
+  }
+  .dummyCard,
+  .waste .card {
+    width: calc(100% + 4px);
+    height: 100px;
+    top: -2px;
+    left: -2px;
+  }
+  .dummyCard.emptyHand {
+    border: 2px dashed #cfcfcf;
+  }
+}
+
+@media (max-width: 440px) {
+  .foundations .foundation,
+  .foundations .foundation .card,
+  .optionsContainer,
+  .hand,
+  .waste,
+  .dummyCard,
+  .card.up {
+    height: 80px;
+  }
+  .foundations .foundation p,
+  .foundations .foundation .card p,
+  .optionsContainer p,
+  .hand p,
+  .waste p,
+  .dummyCard p,
+  .card.up p {
+    -webkit-transform: translateY(-5px);
+            transform: translateY(-5px);
+  }
+  .card.down, .card.up:not(:last-of-type) {
+    height: 10px;
+  }
+  .card.up:not(:last-of-type) {
+    height: 25px;
+  }
+  .card.up .bigSuit {
+    font-size: calc(16px + 4vw);
+  }
+  .card.up p {
+    font-size: calc(16px + 0.5vw);
+  }
+  .optionsContainer button {
+    padding: 1px 0;
+  }
+  .optionsContainer button.newGame {
+    line-height: 1;
+  }
+  .foundations .foundation,
+  .hand,
+  .waste {
+    margin: 10px 3px;
+  }
+  .pile {
+    width: 100%;
+    margin: 0 3px;
+  }
+}
+
+@media (max-width: 350px) {
+  .foundations .foundation,
+  .hand,
+  .waste {
+    margin: 10px 2px;
+  }
+  .pile {
+    width: 100%;
+    margin: 0 2px;
+  }
 }
